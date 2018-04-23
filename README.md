@@ -3,5 +3,5 @@
 
 最终效果
 
-![image text]https://github.com/evolution707/LuoWangSpider/blob/master/IMAGE_STORE/luowang_file_2.png
-![image text]https://github.com/evolution707/LuoWangSpider/blob/master/IMAGE_STORE/luowang_file_1.png
+![image]https://github.com/evolution707/LuoWangSpider/blob/master/IMAGE_STORE/luowang_file_2.png
+![image]https://github.com/evolution707/LuoWangSpider/blob/master/IMAGE_STORE/luowang_file_1.png
