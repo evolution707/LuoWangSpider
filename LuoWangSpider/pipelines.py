@@ -79,13 +79,10 @@ class Mp3Pipeline(FilesPipeline):
 
 
 
-
-
-
-
-
-
 class MongoPipeline(object):
+    '''
+    添加文件到mongodb
+    '''
 
     def __init__(self, mongo_server, mongo_port, mongo_db, mongo_collection):
         self.mongo_server = mongo_server
@@ -108,7 +105,10 @@ class MongoPipeline(object):
 
     def close_spider(self, spider):
         self.client.close()
-
+        
+    # 利用update方法插入数据,
+    # 第一个参数为更新条件,第二个参数是更新后的数据,
+    # 第三个参数为True表示数据库中有该文档字段就更新,没有则添加,达到去重的效果
     def process_item(self, item, spider):
         self.db[self.mongo_collection].update({'vol_num': item['vol_num']}, {'$set': dict(item)}, True)
         return item
