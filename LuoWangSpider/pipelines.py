@@ -2,6 +2,7 @@
 import os
 import json
 import scrapy
+import pymongo
 from scrapy.exceptions import DropItem
 from settings import FILES_STORE
 from scrapy.pipelines.files import FilesPipeline
@@ -14,7 +15,8 @@ class Mp3Pipeline(FilesPipeline):
     def get_media_requests(self, item, info):
         '''
         根据文件的url逐一发送请求
-        :param item: 
+        :param item:
+
         :param info: 
         :return: 
         '''
@@ -74,3 +76,39 @@ class Mp3Pipeline(FilesPipeline):
 #     def process_item(self, item, spider):
 #         self.json_file.write(json.dumps(dict(item),ensure_ascii=False) + '\n')
 #         return item
+
+
+
+
+
+
+
+
+
+class MongoPipeline(object):
+
+    def __init__(self, mongo_server, mongo_port, mongo_db, mongo_collection):
+        self.mongo_server = mongo_server
+        self.mongo_port = mongo_port
+        self.mongo_db = mongo_db
+        self.mongo_collection = mongo_collection
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(
+            mongo_server=crawler.settings.get('MONGODB_SERVER'),
+            mongo_port=crawler.settings.get('MONGODB_PORT'),
+            mongo_db=crawler.settings.get('MONGODB_DB'),
+            mongo_collection=crawler.settings.get('MONGODB_COLLECTION'),
+        )
+
+    def open_spider(self, spider):
+        self.client = pymongo.MongoClient(self.mongo_server, self.mongo_port)
+        self.db = self.client[self.mongo_db]
+
+    def close_spider(self, spider):
+        self.client.close()
+
+    def process_item(self, item, spider):
+        self.db[self.mongo_collection].update({'vol_num': item['vol_num']}, {'$set': dict(item)}, True)
+        return item

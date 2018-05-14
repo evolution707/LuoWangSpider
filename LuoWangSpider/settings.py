@@ -111,9 +111,16 @@ USER_AGENTS = [
 ITEM_PIPELINES = {
    # 'LuoWangSpider.pipelines.LuoWangSpiderPipeline': 200,
    #  'scrapy.pipelines.files.FilesPipeline': 300,
-    'LuoWangSpider.pipelines.Mp3Pipeline': 1,
+   #'LuoWangSpider.pipelines.Mp3Pipeline': 1,
+    'LuoWangSpider.pipelines.MongoPipeline': 100,
 
 }
+
+MONGODB_SERVER = 'localhost'
+MONGODB_PORT = 27017
+MONGODB_DB = 'luowang'
+MONGODB_COLLECTION = 'music'
+
 FILES_STORE = '/home/your_hostname/Desktop/luowang_file/'
 # 文件url保存在item中的字段
 FILES_URLS_FIELD = 'music_urls'
